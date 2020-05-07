@@ -1,15 +1,22 @@
-const Sequelize = require("sequelize");
-const db = require("../config/db.config");
+const User = require("./User.model");
 
-const Blog = db.define("blog", {
-    title: {
-        type: Sequelize.STRING,
-    },
-    author: {},
-    tags: {},
-    createdOn: {},
-    updatedOn: {},
-    body: {},
-});
+module.exports = (sequelize, DataTypes) => {
+    const Blog = sequelize.define("blog", {
+        title: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        author: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        tags: { type: DataTypes.STRING },
+        body: { type: DataTypes.TEXT },
+    });
 
-module.exports = Blog;
+    // Associations
+    Blog.hasOne(User);
+    // Blog.hasOne(User);
+
+    return Blog;
+};

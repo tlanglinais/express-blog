@@ -1,32 +1,26 @@
-const db = require("../config/db.config");
 const User = require("../models/User.model");
-const Sequelize = require("sequelize");
-const Op = Sequelize.Op;
-
-// Get user by id
-// GET /users/:id
-exports.getUser = (req, res) => {
-    User.findOne({ where: { id: req.params.id } })
-        .then((user) => {
-            console.log(user);
-            if (!user) res.send({ message: "No user with that id!" });
-            else res.send(user);
-        })
-        .catch((err) => res.send({ message: "Error", err }));
-};
 
 // Get all users
 // GET /users
-exports.getUsers = (req, res) => {
-    User.findAll().then((users) => {
-        res.send({ users });
-    });
+exports.getUsers = async (req, res) => {
+    const users = await User.query();
+
+    res.send(users);
+};
+
+// Get user by id
+// GET /users/:id
+exports.getUser = async (req, res) => {
+    const user = await User.query().findById(req.params.id);
+
+    if (!user) {
+        res.send({ message: "No user with that id!" });
+    } else res.send({ data: user });
 };
 
 // Create new user
 // POST /users
-exports.createUser = (req, res) => {
-    console.log(req.body);
+exports.createUser = async (req, res) => {
     let { first_name, last_name, email, password } = req.body;
 
     // // Validate fields
@@ -40,31 +34,44 @@ exports.createUser = (req, res) => {
     // if (errors.length > 0) {
 
     // Insert into db
-    User.create({ first_name, last_name, email, password })
-        .then((user) =>
-            res.send({ message: "User created successfully.", user })
-        )
-        .catch((err) => {
-            console.log(err);
-            res.send({ error: err });
+    try {
+        const user = await User.query().insert({
+            first_name: first_name,
+            last_name: last_name,
+            email: email,
+            password: password,
         });
+
+        res.send({ message: "User created.", data: user });
+    } catch (error) {
+        console.log(error);
+        res.send({ message: "A user with that email already exists!" });
+    }
 };
 
 // Update specific user by id
 // PUT /users/:id
-exports.updateUser = (req, res) => {
-    User.update(req.body, { where: { id: req.params.id } })
-        .then((user) => {
-            res.send({ message: "User updated" });
-        })
-        .catch((err) => res.send({ message: "Error", err }));
+exports.updateUser = async (req, res) => {
+    try {
+        const user = await User.query().patchAndFetchById(req.params.id, {
+            ...req.body,
+        });
+        res.send({ message: "User updated", data: user });
+    } catch (error) {
+        console.log(error);
+        res.send({ message: "Something went wrong" });
+    }
 };
 
 // Delete specific user by id
 // DELETE /users/:id
-exports.deleteUser = (req, res) => {
+exports.deleteUser = async (req, res) => {
     // Delete user from db
-    User.destroy({ first_name, last_name, email, password })
-        .then((user) => res.send({ message: "User deleted." }))
-        .catch((err) => console.log(err));
+    try {
+        const deletedRows = await User.query().deleteById(req.params.id);
+        res.send({ message: "User deleted" });
+    } catch (error) {
+        console.log(error);
+        res.send({ message: "Something went wrong" });
+    }
 };

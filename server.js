@@ -1,10 +1,11 @@
 const express = require("express");
 const path = require("path");
-const db = require("./config/db.config");
+const knex = require("./config/knex");
+const { Model } = require("objection");
 
 const app = express();
 
-require("dotenv").config();
+Model.knex(knex);
 
 // body parser
 app.use(express.json());
@@ -12,9 +13,9 @@ app.use(express.json());
 // Static folder
 app.use(express.static(path.join(__dirname, "public")));
 
-db.authenticate()
-    .then(() => console.log("Database connected."))
-    .catch((err) => console.log(err));
+// db.authenticate()
+//     .then(() => console.log("Database connected."))
+//     .catch((err) => console.log(err));
 
 app.get("/", (req, res) => {
     res.send("Welcome to the app.");
