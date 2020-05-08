@@ -1,37 +1,28 @@
-const db = require("../config/db");
-const User = require("../models/User.model");
-const Sequelize = require("sequelize");
-const Op = Sequelize.Op;
+const Blog = require("../models/Blog.model");
+const errorHandler = require("../utils/errorHandler");
 
-// Associations
-User.hasMany(Blog, { as: "blogs", foreignKey: "id" });
-Blog.hasOne(User);
+// Get all blogs
+// GET /blogs
+exports.getBlogs = async (req, res) => {
+    const blogs = await Blog.query();
 
-// Get user by id
-// GET /users/:id
-exports.getUser = (req, res) => {
-    User.findOne({ where: { id: req.params.id } })
-        .then((user) => {
-            console.log(user);
-            if (!user) res.send({ message: "No user with that id!" });
-            else res.send(user);
-        })
-        .catch((err) => res.send({ message: "Error", err }));
+    res.send({ data: blogs });
 };
 
-// Get all users
-// GET /users
-exports.getUsers = (req, res) => {
-    User.findAll().then((users) => {
-        res.send({ users });
-    });
+// Get blog by id
+// GET /blogs/:id
+exports.getBlog = async (req, res) => {
+    const blog = await Blog.query().findById(req.params.id);
+
+    if (!blog) {
+        res.send({ message: "No blog with that id!" });
+    } else res.send({ data: blog });
 };
 
-// Create new user
-// POST /users
-exports.createUser = (req, res) => {
-    console.log(req.body);
-    let { first_name, last_name, email, password } = req.body;
+// Create new blog
+// POST /blogs
+exports.createBlog = async (req, res, next) => {
+    let { title, slug, author_id, tag_id, body } = req.body;
 
     // // Validate fields
     // let errors = [];
@@ -44,31 +35,42 @@ exports.createUser = (req, res) => {
     // if (errors.length > 0) {
 
     // Insert into db
-    User.create({ first_name, last_name, email, password })
-        .then((user) =>
-            res.send({ message: "User created successfully.", user })
-        )
-        .catch((err) => {
-            console.log(err);
-            res.send({ error: err });
+    try {
+        const blog = await Blog.query().insert({
+            title,
+            slug,
+            author_id,
+            tag_id,
+            body,
         });
+
+        res.send({ message: "Blog created.", data: blog });
+    } catch (error) {
+        errorHandler(error, req, res, next);
+        // res.send({ message: "A user with that email already exists!" });
+    }
 };
 
-// Update specific user by id
-// PUT /users/:id
-exports.updateUser = (req, res) => {
-    User.update(req.body, { where: { id: req.params.id } })
-        .then((user) => {
-            res.send({ message: "User updated" });
-        })
-        .catch((err) => res.send({ message: "Error", err }));
+// Update specific blog by id
+// PUT /blogs/:id
+exports.updateBlog = async (req, res) => {
+    try {
+        const blog = await Blog.query().patchAndFetchById(req.params.id, {
+            ...req.body,
+        });
+        res.send({ message: "Blog updated", data: blog });
+    } catch (error) {
+        errorHandler(error);
+    }
 };
 
-// Delete specific user by id
-// DELETE /users/:id
-exports.deleteUser = (req, res) => {
-    // Delete user from db
-    User.destroy({ first_name, last_name, email, password })
-        .then((user) => res.send({ message: "User deleted." }))
-        .catch((err) => console.log(err));
+// Delete specific blog by id
+// DELETE /blogs/:id
+exports.deleteBlog = async (req, res) => {
+    try {
+        const deletedRows = await Blog.query().deleteById(req.params.id);
+        res.send({ message: "Blog deleted" });
+    } catch (error) {
+        errorHandler(error);
+    }
 };

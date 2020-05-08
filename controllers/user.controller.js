@@ -1,4 +1,5 @@
 const User = require("../models/User.model");
+const errorHandler = require("../utils/errorHandler");
 
 // Get all users
 // GET /users
@@ -20,7 +21,7 @@ exports.getUser = async (req, res) => {
 
 // Create new user
 // POST /users
-exports.createUser = async (req, res) => {
+exports.createUser = async (req, res, next) => {
     let { first_name, last_name, email, password } = req.body;
 
     // // Validate fields
@@ -44,8 +45,8 @@ exports.createUser = async (req, res) => {
 
         res.send({ message: "User created.", data: user });
     } catch (error) {
-        console.log(error);
-        res.send({ message: "A user with that email already exists!" });
+        errorHandler(error, req, res, next);
+        // res.send({ message: "A user with that email already exists!" });
     }
 };
 

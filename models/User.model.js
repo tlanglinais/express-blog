@@ -10,7 +10,7 @@ class User extends Model {
     }
 
     $beforeUpdate() {
-        this.updatedOn = new Date();
+        this.updated_at = new Date();
     }
 
     static get jsonSchema() {
@@ -18,7 +18,6 @@ class User extends Model {
             type: "object",
             required: ["first_name", "last_name", "email", "password"],
             properties: {
-                id: { type: "integer" },
                 first_name: { type: "string" },
                 last_name: { type: "string" },
                 email: { type: "email" },

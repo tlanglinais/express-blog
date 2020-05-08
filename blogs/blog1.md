@@ -13,6 +13,10 @@ For my first project, I used MongoDB - that was a bad idea. Joins in MongoDB can
 
 OK sequelize(https://...) looks perfect for this project! Sequelize is a ORM (Object Relational Mapper) which will take care of my models for me. It's just like mongoose is to MongoDB.
 
+> Later that day...
+
+This is some of the worst documentation I've read. Onto the next ORM -
+
 So for this project I'll need a few models: Users, Blogs, Tags
 
 -   node, express
