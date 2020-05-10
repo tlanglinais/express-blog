@@ -1,0 +1,8 @@
+[
+    {
+        "title": "Blog 1",
+        "author_id": 1,
+        "tag_id": 1,
+        "body": "This is the body text"
+    }
+]

@@ -4,19 +4,27 @@ const errorHandler = require("../utils/errorHandler");
 // Get all users
 // GET /users
 exports.getUsers = async (req, res) => {
-    const users = await User.query();
+    try {
+        const users = await User.query();
 
-    res.send(users);
+        res.send(users);
+    } catch (error) {
+        errorHandler(error);
+    }
 };
 
 // Get user by id
 // GET /users/:id
 exports.getUser = async (req, res) => {
-    const user = await User.query().findById(req.params.id);
+    try {
+        const user = await User.query().findById(req.params.id);
 
-    if (!user) {
-        res.send({ message: "No user with that id!" });
-    } else res.send({ data: user });
+        if (!user) {
+            res.send({ message: "No user with that id!" });
+        } else res.send({ data: user });
+    } catch (error) {
+        errorHandler(error);
+    }
 };
 
 // Create new user

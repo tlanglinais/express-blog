@@ -1,12 +1,17 @@
 const express = require("express");
 const path = require("path");
-const knex = require("./config/knex");
+const dotenv = require("dotenv");
+
+// Set up environment variables
+dotenv.config({ path: "./config/config.env" });
+
+const db = require("./config/db_connection");
 const { Model } = require("objection");
 
 const app = express();
 
 // Bind objection models to knex
-Model.knex(knex);
+Model.knex(db);
 
 // body parser
 app.use(express.json());
