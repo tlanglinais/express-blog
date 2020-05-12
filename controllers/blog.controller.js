@@ -7,7 +7,7 @@ const { raw } = require("objection");
 // GET /blogs
 exports.getBlogs = async (req, res) => {
   try {
-    const blogs = await Blog.query();
+    const blogs = await Blog.query().withGraphFetched("[author, tag]");
 
     res.send({ data: blogs });
   } catch (error) {
@@ -18,7 +18,9 @@ exports.getBlogs = async (req, res) => {
 // Get blog by id
 // GET /blogs/:id
 exports.getBlog = async (req, res) => {
-  const blog = await Blog.query().findById(req.params.id);
+  const blog = await Blog.query()
+    .findById(req.params.id)
+    .withGraphFetched("[author, tag]");
 
   if (!blog) {
     res.send({ message: "No blog with that id!" });

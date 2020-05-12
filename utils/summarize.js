@@ -1,5 +1,6 @@
 const Summarize = (body) => {
-  const text = body.slice(0, 255);
+  console.log(body);
+  const text = body.slice(0, 250);
 
   text.replace(/(<([^>]+)>)/gi, "");
 

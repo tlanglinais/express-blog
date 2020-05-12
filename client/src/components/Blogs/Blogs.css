@@ -40,11 +40,29 @@
 }
 
 .blog-li-body {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
+}
+
+.blog-li-info {
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 0.3rem;
 }
 
 .blog-li-author {
-  margin-bottom: 0.1rem;
+  font-style: italic;
+}
+
+.blog-li-tag {
+  background-color: var(--accent-color);
+  padding: 0 0.5rem;
+  transform: skewX(-10deg);
+}
+
+.blog-li-tag-offset {
+  transform: skewX(10deg);
 }
 
 .blog-li-text {

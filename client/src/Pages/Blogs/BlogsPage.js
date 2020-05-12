@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import BlogsList from "../components/Blogs/BlogsList";
-import TagsList from "../components/Tags/TagsList";
-import Loading from "../components/Loading/Loading";
-import FetchHandler from "../utils/FetchHandler";
+import BlogsList from "../../components/Blogs/BlogsList";
+import TagsList from "../../components/Tags/TagsList";
+import Loading from "../../components/Loading/Loading";
+import FetchHandler from "../../utils/FetchHandler";
 
 import "./BlogsPage.css";
 
@@ -31,16 +31,16 @@ const BlogsPage = () => {
   };
 
   return (
-    <div className="blogs-page-container">
+    <>
       {isLoading ? (
         <Loading />
       ) : (
-        <>
+        <div className="blogs-page-container">
           <TagsList tags={tags} />
           <BlogsList blogs={blogs} />
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

@@ -1,9 +1,8 @@
 import React from "react";
 import dateformat from "dateformat";
-import summarize from "../../utils/Summarize";
 
 const BlogsListItem = (props) => {
-  const { title, author_id, tag_id, body, created_at, updated_at } = props.blog;
+  const { title, author, tag, summary, created_at, updated_at } = props.blog;
 
   return (
     <li>
@@ -22,8 +21,15 @@ const BlogsListItem = (props) => {
             </div>
           </div>
           <div className="blog-li-body">
-            <div className="blog-li-author">Written by: {author_id}</div>
-            <div className="blog-li-text">{summarize(body)}</div>
+            <div className="blog-li-info">
+              <div className="blog-li-author">
+                Written by: {author.first_name} {author.last_name}
+              </div>
+              <div className="blog-li-tag">
+                <div className="blog-li-tag-offset">{tag.name}</div>
+              </div>
+            </div>
+            <div className="blog-li-text">{summary}</div>
           </div>
         </div>
       </div>

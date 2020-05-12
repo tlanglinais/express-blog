@@ -11,14 +11,21 @@ class Blog extends Model {
   }
 
   $beforeInsert() {
+    console.log("Trigger beforeInsert");
     this.slug = slugify(this.title, { lower: true });
     this.summary = summarize(this.body);
   }
 
   $beforeUpdate() {
+    console.log("Trigger beforeUpdate");
+    console.log(this);
+    if (this.body) {
+      this.summary = summarize(this.body);
+    }
+    if (this.title) {
+      this.slug = slugify(this.title, { lower: true });
+    }
     this.updated_at = new Date();
-    this.slug = slugify(this.title, { lower: true });
-    this.summary = summarize(this.body);
   }
 
   async $beforeDelete() {
@@ -35,7 +42,7 @@ class Blog extends Model {
         title: { type: "string" },
         author_id: { type: "integer" },
         tag_id: { type: "integer" },
-        body: { type: "string" },
+        body: { type: "text" },
       },
     };
   }

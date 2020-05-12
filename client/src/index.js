@@ -6,7 +6,8 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import BlogsPage from "./Pages/BlogsPage";
+import BlogsPage from "./Pages/Blogs/BlogsPage";
+import BlogForm from "./components/Blog/BlogForm";
 
 import "./index.css";
 
@@ -25,6 +26,7 @@ const App = () => {
           {redirect ? <Redirect to="/blogs" /> : ""}
         </Route>
         <Route exact path="/blogs" component={BlogsPage} />
+        <Route exact path="/blogs/new" component={BlogForm} />
       </Router>
     </div>
   );

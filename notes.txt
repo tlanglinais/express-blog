@@ -1,0 +1,7 @@
+add user auth
+refactor getTags to only show tags used by logged in user
+hash passwords
+
+get loading circle in both tags and blogs
+
+set tag in blog as taglistitem
