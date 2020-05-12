@@ -1,8 +1,10 @@
 [
-    {
-        "name": "Web Dev"
-    },
-    {
-        "name": "Raspberry Pi"
-    }
+  {
+    "name": "Web Dev",
+    "count": 0
+  },
+  {
+    "name": "Raspberry Pi",
+    "count": 0
+  }
 ]

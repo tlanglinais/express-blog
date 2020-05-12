@@ -1,6 +1,6 @@
 exports.up = (knex) => {
   return knex.schema
-    .createTableIfNotExists("users", (table) => {
+    .createTable("users", (table) => {
       table.increments("id");
       table.string("email").unique().notNullable();
       table.string("first_name").notNullable();
@@ -8,18 +8,20 @@ exports.up = (knex) => {
       table.string("password").notNullable();
       table.timestamps(true, true);
     })
-    .createTableIfNotExists("tags", (table) => {
+    .createTable("tags", (table) => {
       table.increments("id");
       table.string("name").unique().notNullable();
+      table.integer("count");
       table.timestamps(true, true);
     })
-    .createTableIfNotExists("blogs", (table) => {
+    .createTable("blogs", (table) => {
       table.increments("id");
       table.string("title").notNullable();
       table.string("slug");
       table.integer("author_id").unsigned();
       table.integer("tag_id").unsigned();
       table.text("body");
+      table.string("summary");
       table.timestamps(true, true);
 
       table
