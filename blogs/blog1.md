@@ -8,7 +8,7 @@ Um, I don't really know.
 I've had trouble finding complete web dev projects online, so why not I'll take a shot at it. Let's start by explaining how I built this blog.
 
 ## Tech Stack
-I'm going to use Node/Express for my server and MySQL as the database. After doing some research, I came across the Knex.js and Objection.js combo. Knex is a SQL query builder while Objection is an ORM that is built on top of Knex. Knex handles the creation/migration of the database, while Objection handles the Modeling of the data. For the front-end I'll use React and host the project on Heroku.
+I'm going to use Node/Express for my server and MySQL as the database. After doing some research, I came across the Knex.js and Objection.js combo. Knex is a SQL query builder while Objection is an ORM that is built on top of Knex. Knex handles the creation/migration of the database, while Objection handles the modeling of the data. For the front-end I'll use React and host the project on Heroku.
 
 Tech Stack Summary
 - Server - Node/Express
